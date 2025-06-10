@@ -21,8 +21,8 @@ RUN apt update && \
     apt install -y python3-colcon-common-extensions python3-rosdep python3-vcstool python3-pip && \
     rosdep init && rosdep update && \
     # apt install -y libbrotli1=1.0.9-2build6 libbrotli-dev=1.0.9-2build6 --allow-downgrades && \
-    # apt install -y ros-${ROS_DISTRO}-vision-msgs ros-${ROS_DISTRO}-ackermann-msgs ros-${ROS_DISTRO}-navigation2 && \ 
-    # apt install -y ros-${ROS_DISTRO}-nav2-bringup ros-${ROS_DISTRO}-nav2-common ros-${ROS_DISTRO}-pointcloud-to-laserscan && \
+    apt install -y ros-${ROS_DISTRO}-vision-msgs ros-${ROS_DISTRO}-ackermann-msgs && \ 
+    # apt install -y ros-${ROS_DISTRO}-navigation2 ros-${ROS_DISTRO}-nav2-bringup ros-${ROS_DISTRO}-nav2-common ros-${ROS_DISTRO}-pointcloud-to-laserscan && \
     rm -rf /var/lib/apt/lists/*
 
 USER ubuntu
@@ -32,8 +32,12 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
     sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/g' /home/$USERNAME/.zshrc
 SHELL ["/bin/zsh", "-c"]
 
-RUN echo "source /opt/ros/${ROS_DISTRO}/setup.zsh" >> /home/$USERNAME/.zshrc && \
-    echo ": 1700000000:0;source /opt/ros/${ROS_DISTRO}/setup.zsh" >> /home/$USERNAME/.zsh_history && \
+RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /home/$USERNAME/.bashrc && \
+    echo "source /opt/ros/${ROS_DISTRO}/setup.zsh" >> /home/$USERNAME/.zshrc && \
+    echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> /home/$USERNAME/.zshrc && \
+    echo "export _colcon_cd_root=/opt/ros/${ROS_DISTRO}/" >> /home/$USERNAME/.zshrc && \
+    echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.zsh" >> /home/$USERNAME/.zshrc && \
+    echo ": 1700000000:0;colcon build" >> /home/$USERNAME/.zsh_history && \
     echo ": 1700000001:0;/isaac-sim/post_install.sh" >> /home/$USERNAME/.zsh_history && \
     echo ": 1700000002:0;/isaac-sim/isaac-sim.sh" >> /home/$USERNAME/.zsh_history
 
