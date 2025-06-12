@@ -18,9 +18,11 @@ RUN apt update && \
       > /etc/apt/sources.list.d/ros2-latest.list' && \
     apt update && \
     apt install -y ros-${ROS_DISTRO}-ros-base && \
-    apt install -y python3-colcon-common-extensions python3-rosdep python3-vcstool python3-pip && \
+    apt install -y python3-colcon-common-extensions python3-rosdep python3-vcstool python3-pip python3-colcon-mixin && \
     apt install -y ros-${ROS_DISTRO}-vision-msgs ros-${ROS_DISTRO}-ackermann-msgs && \
     rosdep init && \
+    colcon mixin add default https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml && \
+    colcon mixin update default && \
     rm -rf /var/lib/apt/lists/*
 
 USER ubuntu

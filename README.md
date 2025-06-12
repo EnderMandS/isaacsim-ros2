@@ -44,7 +44,6 @@ docker pull ghcr.io/endermands/isaac-sim:4.5.0
 
 #### GUI
 For GUI, pull ros-desktop image
-Pull ros-desktop image
 ``` shell
 docker pull ghcr.io/endermands/isaac-sim:4.5.0-desktop
 ```
