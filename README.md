@@ -50,6 +50,8 @@ docker pull ghcr.io/endermands/isaac-sim:4.5.0-desktop
 
 ## Usage
 
+The passwords for `root` and `ubuntu` are both set to single quotation marks `'` which is next to the `Enter` key.
+
 ### Headless
 Create a docker container. Set the last volume mount to your own isaac sim asset directory.
 ``` shell
@@ -111,3 +113,8 @@ Start up isaac sim
 ``` shell
 /isaac-sim/isaac-sim.sh
 ```
+
+### Alias
+We have set aliases for some commands to make them easier to use:
+- use `omni_python` instead of `/isaac-sim/python.sh`
+- use `sim` instead of `/isaac-sim/isaac-sim.sh`

@@ -26,6 +26,10 @@ RUN apt update && \
     colcon mixin update default && \
     rm -rf /var/lib/apt/lists/*
 
+RUN echo "root:'" | chpasswd && \
+    echo "ubuntu:'" | chpasswd && \
+    usermod -aG sudo ubuntu
+
 USER ubuntu
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && \
@@ -33,7 +37,9 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
     sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/g' /home/$USERNAME/.zshrc
 SHELL ["/bin/zsh", "-c"]
 
-RUN echo "source /opt/ros/${ROS_DISTRO}/setup.zsh" >> /home/$USERNAME/.zshrc && \
+RUN echo "alias omni_python='/isaac-sim/python.sh'" >> /home/$USERNAME/.zshrc && \
+    echo "alias sim='/isaac-sim/isaac-sim.sh'" >> /home/$USERNAME/.zshrc && \
+    echo "source /opt/ros/${ROS_DISTRO}/setup.zsh" >> /home/$USERNAME/.zshrc && \
     echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> /home/$USERNAME/.zshrc && \
     echo "export _colcon_cd_root=/opt/ros/${ROS_DISTRO}/" >> /home/$USERNAME/.zshrc && \
     echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.zsh" >> /home/$USERNAME/.zshrc && \
